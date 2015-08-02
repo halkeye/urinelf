@@ -1,0 +1,17 @@
+@import '~zurb-foundation-5/scss/normalize.scss';
+@import '~zurb-foundation-5/scss/foundation.scss';
+
+body {
+  background-color: grey;
+}
+
+.title {
+  @extend .jumbo;
+  background-color: white;
+  div {
+    margin: 0 auto;
+    max-width: 62.5rem;
+    width: 100%;
+    text-align: center;
+  }
+}
