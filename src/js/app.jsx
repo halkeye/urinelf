@@ -10,46 +10,61 @@ export default class App extends React.Component {
 
   }
   componentDidMount() {
-    setInterval(this.updateLoop.bind(this), 100);
+    //setInterval(this.updateLoop.bind(this), 100);
 
     this.canvas = React.findDOMNode(this.refs.canvas);
     this.canvas.height = this.canvas.scrollHeight;
     this.canvas.width = this.canvas.scrollWidth;
+    this.crosshairs = {
+      x: (this.canvas.width / 2),
+      y: (this.canvas.height / 2)
+    };
+
     this.ctx = this.canvas.getContext('2d');
     this.animFrame();
+    setInterval(() => {
+      this.streamParticles.push(
+        {
+          currentLocation: { x: 0, y: 0 },
+          targetLocation: { x: this.crosshairs.x, y: this.crosshairs.y }
+        }
+      );
+    }, 30);
   }
 
   animFrame() {
     raf(this.animFrame.bind(this));
+    this.renderLoop();
+    this.updateLoop();
+  }
+
+  renderLoop(dt) {
     // https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/globalCompositeOperation
     // Should instead xor out the previous location drawings, but easier just to clear and redraw
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    this.center = {
-      x: (this.canvas.width / 2),
-      y: (this.canvas.height / 2)
-    };
 
     /* FIXME */
     if (this.streamParticles.length === 0) {
       this.streamParticles.push(
         {
           currentLocation: { x: 0, y: 0 },
-          targetLocation: { x: this.center.x, y: this.center.y }
+          targetLocation: { x: this.crosshairs.x, y: this.crosshairs.y }
         }
       );
     }
     this.ctx.beginPath();
     this.ctx.fillStyle = 'rgb(255,255,255)';
-    this.ctx.moveTo(this.center.x - 10, this.center.y);
-    this.ctx.lineTo(this.center.x + 10, this.center.y);
+    this.ctx.moveTo(this.crosshairs.x - 10, this.crosshairs.y);
+    this.ctx.lineTo(this.crosshairs.x + 10, this.crosshairs.y);
     this.ctx.stroke();
-    this.ctx.moveTo(this.center.x, this.center.y - 10);
-    this.ctx.lineTo(this.center.x, this.center.y + 10);
+    this.ctx.moveTo(this.crosshairs.x, this.crosshairs.y - 10);
+    this.ctx.lineTo(this.crosshairs.x, this.crosshairs.y + 10);
     this.ctx.stroke();
 
     this.streamParticles.forEach((part) => {
       if (part.deleted) { return; }
       this.ctx.fillStyle = 'yellow';
+      // Nicer Particles - http://thecodeplayer.com/walkthrough/make-a-particle-system-in-html5-canvas
       this.ctx.fillRect(part.currentLocation.x, part.currentLocation.y, 10, 10);
     });
   }
@@ -77,6 +92,9 @@ export default class App extends React.Component {
 
       part.currentLocation.x += Math.cos(rotation) * speed;
       part.currentLocation.y += Math.sin(rotation) * speed;
+    });
+    this.streamParticles = this.streamParticles.filter((elm) => {
+      return !elm.deleted;
     });
   }
   render() {
