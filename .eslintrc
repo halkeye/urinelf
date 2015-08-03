@@ -14,6 +14,7 @@
   "rules": {
     "strict": 1,
     "quotes": [2, "single"],
+    "max-len": [2, 100, 2, {ignoreUrls: true} ],
     "no-unused-vars": 1,
     "camelcase": 0,
     "no-underscore-dangle": 0
