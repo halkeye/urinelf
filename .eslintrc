@@ -9,11 +9,11 @@
   "settings": {
     "ecmascript": 6
   },
-  "plugins": [
-    ],
+  "plugins": [ ],
   "rules": {
     "strict": 1,
     "quotes": [2, "single"],
+    "no-console": 0,
     "max-len": [2, 100, 2, {ignoreUrls: true} ],
     "no-unused-vars": 1,
     "camelcase": 0,

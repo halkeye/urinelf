@@ -9,7 +9,7 @@
   "scripts": {
     "start": "node ./server.dev.js",
     "build": "rm -rf dist && NODE_ENV=production webpack -p",
-    "deploy": "npm run build && surge -p dist -d misstoriz-record-a-thon.surge.sh"
+    "deploy": "npm run build && surge -p dist -d urinelf.surge.sh"
   },
   "author": "Gavin Mogan <npm@gavinmogan.com> (http://www.gavinmogan.com/)",
   "license": "MIT",

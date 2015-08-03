@@ -15,3 +15,39 @@ body {
     text-align: center;
   }
 }
+
+.keyboard {
+  user-select:none;
+}
+
+.keyRow {
+  display: flex;
+  margin:0 auto 7px;
+  line-height:50px;
+}
+
+.keyGap, .key {
+  margin:0 6px 0 0;
+  height:57px;
+  width: 57px;
+}
+
+.key {
+  background:#444;
+  color:#eee;
+  border-radius:4px;
+  box-shadow:0 1px 0 #222, inset 0 1px 3px rgba(255,255,255,0.1);
+  transition:0.1s;
+  text-align:center;
+  align-items:center;
+  align-content:center;
+  border:2px solid rgba(0,0,0,0.08);
+  cursor:pointer;
+}
+
+.key:active {
+  transform:translateY(1px);
+  background:#333;
+  box-shadow:0 1px 0 #000;
+}
+
