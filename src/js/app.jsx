@@ -10,7 +10,9 @@ export default class App extends React.Component {
 
   }
   componentDidMount() {
-    //setInterval(this.updateLoop.bind(this), 100);
+    /*if (window.DeviceOrientationEvent) {
+      console.log("DeviceOrientation is supported");
+      }*/
 
     this.canvas = React.findDOMNode(this.refs.canvas);
     this.canvas.height = this.canvas.scrollHeight;
