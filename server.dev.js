@@ -16,7 +16,7 @@ var server = new WebpackDevServer(compiler, {
   hot: true,
   stats: { colors: true },
   cache: false,
-  https: true
+  https: false
 });
 
 // 0.0.0.0 listen to all interfaces - localhost...
