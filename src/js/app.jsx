@@ -27,7 +27,7 @@ export default class App extends React.Component {
       this.streamParticles.push(
         {
           radius: 10,
-          currentLocation: { x: 0, y: 0 },
+          currentLocation: { x: this.canvas.width / 2, y: this.canvas.height },
           targetLocation: { x: this.crosshair.x, y: this.crosshair.y }
         }
       );
@@ -78,7 +78,7 @@ export default class App extends React.Component {
 
       /* Stupid detection to see if we've missed our mark */
       const distance = Math.sqrt(dx * dx + dy * dy);
-      if (distance < part.radius + this.crosshair.radius) { // call it close enough
+      if (distance < speed) { // call it close enough
         part.deleted = true;
       }
 
@@ -108,7 +108,18 @@ export default class App extends React.Component {
               1 canvas for background,
               1 canvas for elf?
             */}
-          <canvas ref="canvas" style={{ height: '100%', width: '100%', display: 'block' }}></canvas>
+          <div style={{
+            height: '100%',
+            width: '100%',
+            display: 'block',
+            backgroundImage: 'url(' + require('../images/toxic1.png') + ')'
+          }}>
+            <canvas ref="canvas" style={{
+              height: '100%',
+              width: '100%',
+              display: 'block' }}>
+            </canvas>
+          </div>
         </div>
         <div className="controlls row">
           <div className="keyboard">
