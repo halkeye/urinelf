@@ -27,6 +27,7 @@ body {
 }
 
 .keyGap, .key {
+  user-select:none;
   margin:0 6px 0 0;
   height:57px;
   width: 57px;

@@ -5,12 +5,19 @@ import raf from 'raf';
 export default class App extends React.Component {
   constructor() {
     super();
-    this.state = {};
+    this.state = {
+      backgroundPositionX: 0,
+      backgroundPositionY: 0
+    };
     this.streamParticles = [ ];
 
   }
   componentDidMount() {
     //setInterval(this.updateLoop.bind(this), 100);
+    if (window.DeviceOrientationEvent) {
+      // Listen for the event and handle DeviceOrientationEvent object
+      window.addEventListener('deviceorientation', this.devOrientHandler.bind(this), false);
+    }
 
     this.canvas = React.findDOMNode(this.refs.canvas);
     this.canvas.height = this.canvas.scrollHeight;
@@ -94,7 +101,31 @@ export default class App extends React.Component {
     this.crosshair[direction] += amount * 10;
   }
 
+  devOrientHandler(eventData) {
+    // gamma is the left-to-right tilt in degrees, where right is positive
+    const tiltLR = eventData.gamma;
+
+    // beta is the front-to-back tilt in degrees, where front is positive
+    const tiltFB = eventData.beta;
+
+    // alpha is the compass direction the device is facing in degrees
+    const dir = eventData.alpha;
+
+    this.setState({
+      backgroundPositionX: this.state.backgroundPositionX + tiltLR,
+      backgroundPositionY: this.state.backgroundPositionY + tiltFB
+    });
+
+    // call our orientation event handler
+    console.log(tiltLR, tiltFB, dir);
+  }
+
   render() {
+    const backgroundPositionStr = (
+      this.state.backgroundPositionX +
+      ' ' +
+      this.state.backgroundPositionY
+    );
     return (
       <div>
         <div className="title">
@@ -112,7 +143,8 @@ export default class App extends React.Component {
             height: '100%',
             width: '100%',
             display: 'block',
-            backgroundImage: 'url(' + require('../images/toxic1.png') + ')'
+            backgroundImage: 'url(' + require('../images/toxic1.png') + ')',
+            backgroundPosition: backgroundPositionStr
           }}>
             <canvas ref="canvas" style={{
               height: '100%',
