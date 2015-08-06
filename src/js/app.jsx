@@ -29,6 +29,7 @@ export default class App extends React.Component {
     };
 
     this.ctx = this.canvas.getContext('2d');
+    /*
     this.animFrame();
     setInterval(() => {
       this.streamParticles.push(
@@ -39,6 +40,7 @@ export default class App extends React.Component {
         }
       );
     }, 30);
+    */
   }
 
   animFrame() {
@@ -109,28 +111,29 @@ export default class App extends React.Component {
     const tiltFB = eventData.beta;
 
     // alpha is the compass direction the device is facing in degrees
-    const dir = eventData.alpha;
+    //const dir = eventData.alpha;
 
     this.setState({
-      backgroundPositionX: this.state.backgroundPositionX + tiltLR,
-      backgroundPositionY: this.state.backgroundPositionY + tiltFB
+      backgroundPositionX: this.state.backgroundPositionX - tiltLR,
+      backgroundPositionY: this.state.backgroundPositionY - tiltFB
     });
-
-    // call our orientation event handler
-    console.log(tiltLR, tiltFB, dir);
   }
 
+  onStartClick() {
+    document.body.webkitRequestFullScreen();
+    //console.log(window.screen.lockOrientation.lock();
+  }
   render() {
-    const backgroundPositionStr = (
-      this.state.backgroundPositionX +
-      ' ' +
-      this.state.backgroundPositionY
-    );
+    const backgroundPositionStr = [
+      this.state.backgroundPositionX + 'px',
+      this.state.backgroundPositionY + 'px'
+    ].join(' ');
     return (
       <div>
         <div className="title">
           <div>
-            <h1>Hit the Urine-elf</h1>
+            <h1>Hit the elf</h1>
+            <button onClick={this.onStartClick.bind(this)}>Start</button>
           </div>
         </div>
         <div className="game row">
