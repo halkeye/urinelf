@@ -1,0 +1,34 @@
+      <div>
+        <div class="title">
+          <div>
+            <h1>Hit the elf</h1>
+            <button id="startBtn">Start</button>
+          </div>
+        </div>
+        <div class="game row">
+          <!--
+              1 canvas for stream,
+              1 canvas for background,
+              1 canvas for elf?
+              -->
+          <div class="background">
+            <canvas ref="canvas"></canvas>
+          </div>
+        </div>
+        <div class="controlls row">
+          <div class="keyboard">
+            <!-- If no accelerometer support (as on first event, hide this)
+            then add manual controls here -->
+            <section class="keyRow">
+              <div class="keyGap"></div>
+              <div class="key" id="keyUp">Up</div>
+              <div class="keyGap"></div>
+            </section>
+            <section class="keyRow">
+              <div class="key" id="keyLeft">Left</div>
+              <div class="key" id="keyDown">Down</div>
+              <div class="key" id="keyRight">Right</div>
+            </section>
+          </div>
+        </div>
+      </div>

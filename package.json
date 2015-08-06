@@ -45,6 +45,7 @@
     "json3": "^3.3.2",
     "raf": "^3.1.0",
     "react": "^0.13.3",
+    "screenfull": "^2.0.0",
     "zurb-foundation-5": "^5.4.7"
   }
 }

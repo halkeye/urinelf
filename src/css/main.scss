@@ -16,8 +16,26 @@ body {
   }
 }
 
+.game {
+  .background {
+    height: 100%;
+    width: 100%;
+    display: block;
+    background-image: url(../images/toxic1.png);
+  }
+  canvas {
+    height: 100%;
+    width: 100%;
+    display: block;
+  }
+}
+
 .keyboard {
   user-select:none;
+  -o-user-select:none;
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
 }
 
 .keyRow {
@@ -27,7 +45,6 @@ body {
 }
 
 .keyGap, .key {
-  user-select:none;
   margin:0 6px 0 0;
   height:57px;
   width: 57px;

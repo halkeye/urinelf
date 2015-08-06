@@ -38,12 +38,14 @@ NoErrorsPluginBeep.prototype.apply = function apply(compiler) {
 var config = {
   context: path.join(__dirname, './src'),
   entry: [
-    'consolelog',
+    'webpack/hot/dev-server',
+
+    /*'consolelog',
     'es5-shim',
     'es5-shim/es5-sham',
     'es6-shim',
     'es6-shim/es6-sham',
-    'json3',
+    'json3',*/
 
     './css/main.scss',
     './js/main.jsx'
@@ -51,9 +53,9 @@ var config = {
   module: {
     preLoaders: [
       {
-          test: /\.jsx?$/,
-          exclude: /node_modules|bower_components|app\/vendor\/.*/,
-          loader: 'eslint-loader'
+        test: /\.jsx?$/,
+        exclude: /node_modules|bower_components|app\/vendor\/.*/,
+        loader: 'eslint-loader'
       }
     ],
     loaders: [
@@ -64,10 +66,12 @@ var config = {
       },
       {
         test: /\.scss$/,
-        loader: ExtractTextPlugin.extract('style-loader', [
-          'css-loader?importLoaders=1' + sourceMapParam.replace('?', '&'),
-          'sass-loader?includePaths[]=' + path.resolve(__dirname, './node_modules')
-        ].join('!'))
+        //loader: ExtractTextPlugin.extract('style',
+        loader: 'style!css!sass!postcss?outputStyle=expanded&' + [
+          'includePaths[]=' + path.resolve(__dirname, './src'),
+          'includePaths[]=' + path.resolve(__dirname, './node_modules')
+        ].join('&')
+        //)
       },
       {
         test: /\.css$/,
@@ -94,7 +98,8 @@ var config = {
   },
   plugins: [
     new NoErrorsPluginBeep(),
-    new ExtractTextPlugin(!isDev ? 'styles/[name]-[hash].css' : 'styles/[name].css'),
+    new webpack.HotModuleReplacementPlugin(),
+    new ExtractTextPlugin(!isDev ? '[name]-[hash].css' : '[name].css'),
     new HtmlWebpackPlugin({ inject: true, template: './src/index.html' })
   ].concat(prodPlugins),
   resolve: { modulesDirectories: ['node_modules'] },
