@@ -1,4 +1,5 @@
 import raf from 'raf';
+import screenfull from 'screenfull';
 
 export default class App {
   constructor() {
@@ -7,7 +8,6 @@ export default class App {
       backgroundPositionY: 0
     };
     this.streamParticles = [ ];
-
 
     this.canvas = document.querySelector('.game canvas');
     this.canvas.height = this.canvas.scrollHeight;
@@ -47,14 +47,18 @@ export default class App {
       'click',
       this.clickControl.bind(this, 'x', 1)
     );
-    /*
+
+    document.querySelector('.game .close').addEventListener(
+      'click',
+      () => {
+        screenfull.exit();
+      }
+    );
+
     if (window.DeviceOrientationEvent) {
       // Listen for the event and handle DeviceOrientationEvent object
       window.addEventListener('deviceorientation', this.devOrientHandler.bind(this), false);
     }
-    */
-
-    //document.addEventListener(screenfull.raw.fullscreenerror, this.onFullScreen.bind(this));
   }
 
   animFrame() {
@@ -145,10 +149,8 @@ export default class App {
     // alpha is the compass direction the device is facing in degrees
     //const dir = eventData.alpha;
 
-    console.log({
-      backgroundPositionX: this.state.backgroundPositionX - tiltLR,
-      backgroundPositionY: this.state.backgroundPositionY - tiltFB
-    });
+    this.crosshair.x = Math.max(0, Math.min(this.crosshair.x + tiltFB, this.canvas.width));
+    this.crosshair.y = Math.max(0, Math.min(this.crosshair.y - tiltLR, this.canvas.height));
   }
 
   /*

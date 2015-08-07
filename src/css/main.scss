@@ -19,6 +19,7 @@ body {
 }
 
 .game {
+  position: relative;
   .background {
     height: 100%;
     width: 100%;
@@ -29,6 +30,16 @@ body {
     height: 100%;
     width: 100%;
     display: block;
+  }
+  .close {
+    background-image: url(../images/close.svg);
+    background-size: contain;
+    cursor: pointer;
+    height: 64px;
+    width: 64px;
+    position: absolute;
+    top: 0;
+    right: 0;
   }
 }
 
