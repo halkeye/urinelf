@@ -37,19 +37,24 @@ NoErrorsPluginBeep.prototype.apply = function apply(compiler) {
 
 var config = {
   context: path.join(__dirname, './src'),
-  entry: [
-    'webpack/hot/dev-server',
-
-    /*'consolelog',
-    'es5-shim',
-    'es5-shim/es5-sham',
-    'es6-shim',
-    'es6-shim/es6-sham',
-    'json3',*/
-
-    './css/main.scss',
-    './js/main.js'
-  ],
+  entry: {
+    common: [
+      'consolelog',
+      'es5-shim',
+      'es5-shim/es5-sham',
+      'es6-shim',
+      'es6-shim/es6-sham',
+      'json3'
+    ],
+    js: [
+      'webpack/hot/dev-server',
+      './js/main.js'
+    ],
+    css: [
+      'webpack/hot/dev-server',
+      './css/main.scss'
+    ]
+  },
   module: {
     preLoaders: [
       {

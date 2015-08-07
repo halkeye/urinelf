@@ -69,3 +69,20 @@ body {
   box-shadow:0 1px 0 #000;
 }
 
+#splashScreen {
+  height: 80%;
+  width: 80%;
+  margin: 10%;
+  background-color: darken(gray, 25%);
+  border-radius: 10%;
+  text-align: center;
+
+  display:flex;
+  align-items: center;
+  justify-content: center;
+
+  .content {
+    flex: 1;
+    width: 50%;
+  }
+}
