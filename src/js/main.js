@@ -1,4 +1,5 @@
 import raf from 'raf';
+import screenfull from 'screenfull';
 
 class App {
   constructor() {
@@ -62,10 +63,8 @@ class App {
     }
     */
 
-    document.addEventListener('fullscreenchange', this.onFullScreen.bind(this));
-    document.addEventListener('webkitfullscreenchange', this.onFullScreen.bind(this));
-    document.addEventListener('mozfullscreenchange', this.onFullScreen.bind(this));
-    document.addEventListener('MSFullscreenChange', this.onFullScreen.bind(this));
+    document.addEventListener(screenfull.raw.fullscreenchange, this.onFullScreen.bind(this));
+    //document.addEventListener(screenfull.raw.fullscreenerror, this.onFullScreen.bind(this));
   }
 
   animFrame() {
@@ -145,8 +144,9 @@ class App {
   }
 
   onStartClick() {
-    document.body.webkitRequestFullScreen();
-    //console.log(window.screen.lockOrientation.lock());
+    if (screenfull.enabled) {
+      screenfull.request(document.body);
+    }
   }
 
   onFullScreen(/*event*/) {
