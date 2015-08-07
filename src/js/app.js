@@ -1,5 +1,4 @@
 import raf from 'raf';
-import screenfull from 'screenfull';
 
 export default class App {
   constructor() {
@@ -18,10 +17,13 @@ export default class App {
       x: (this.canvas.width / 2),
       y: (this.canvas.height / 2)
     };
+  }
 
+  start() {
     this.ctx = this.canvas.getContext('2d');
     this.animFrame();
-    setInterval(() => {
+
+    this.particleInterval = setInterval(() => {
       this.streamParticles.push(
         {
           radius: 10,
@@ -32,6 +34,13 @@ export default class App {
     }, 30);
 
     this.addEventListeners();
+  }
+  
+  stop() {
+    clearInterval(this.particleInterval);
+    delete this.particleInterval;
+    raf.cancel(this.renderLoopId);
+    delete this.renderLoopId;
   }
 
   addEventListeners() {
@@ -51,11 +60,6 @@ export default class App {
       'click',
       this.clickControl.bind(this, 'x', 1)
     );
-    document.querySelector('#startBtn').addEventListener(
-      'click',
-      this.onStartClick.bind(this)
-    );
-
     /*
     if (window.DeviceOrientationEvent) {
       // Listen for the event and handle DeviceOrientationEvent object
@@ -63,12 +67,11 @@ export default class App {
     }
     */
 
-    document.addEventListener(screenfull.raw.fullscreenchange, this.onFullScreen.bind(this));
     //document.addEventListener(screenfull.raw.fullscreenerror, this.onFullScreen.bind(this));
   }
 
   animFrame() {
-    raf(this.animFrame.bind(this));
+    this.renderLoopId = raf(this.animFrame.bind(this));
     this.renderLoop();
     this.updateLoop();
   }
@@ -141,35 +144,6 @@ export default class App {
       backgroundPositionX: this.state.backgroundPositionX - tiltLR,
       backgroundPositionY: this.state.backgroundPositionY - tiltFB
     });
-  }
-
-  onStartClick() {
-    if (screenfull.enabled) {
-      screenfull.request(document.body);
-    }
-  }
-
-  onFullScreen(/*event*/) {
-    const isFullScreen = document.fullScreenEnabled ||
-      document.webkitFullscreenEnabled ||
-      document.mozFullscreenEnabled;
-
-    const elm = document.fullscreenElement ||
-      document.webkitFullscreenElement ||
-      document.mozFullscreenElement;
-    console.log(elm, isFullScreen, arguments);
-    // The event object doesn't carry information about the fullscreen state of the browser,
-    // but it is possible to retrieve it through the fullscreen API
-    if (isFullScreen) {
-      // The target of the event is always the document,
-      // but it is possible to retrieve the fullscreen element through the API
-      //document.fullscreenElement;
-      console.log(window.screen.orientation.type);
-      window.screen.orientation.lock('landscape-primary');
-    } else {
-      console.log(window.screen.orientation.type);
-      window.screen.orientation.unlock();
-    }
   }
 
   /*
