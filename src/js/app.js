@@ -22,23 +22,10 @@ export default class App {
   start() {
     this.ctx = this.canvas.getContext('2d');
     this.animFrame();
-
-    this.particleInterval = setInterval(() => {
-      this.streamParticles.push(
-        {
-          radius: 10,
-          currentLocation: { x: this.canvas.width / 2, y: this.canvas.height },
-          targetLocation: { x: this.crosshair.x, y: this.crosshair.y }
-        }
-      );
-    }, 30);
-
     this.addEventListeners();
   }
 
   stop() {
-    clearInterval(this.particleInterval);
-    delete this.particleInterval;
     raf.cancel(this.renderLoopId);
     delete this.renderLoopId;
   }
@@ -93,8 +80,18 @@ export default class App {
     this.streamParticles.forEach((part) => {
       if (part.deleted) { return; }
       this.ctx.fillStyle = 'yellow';
+      this.ctx.beginPath();
+      this.ctx.arc(
+        part.currentLocation.x,
+        part.currentLocation.y,
+        part.radius,
+        0,
+        2 * Math.PI
+      );
+      this.ctx.closePath();
+      this.ctx.fill();
+
       // Nicer Particles - http://thecodeplayer.com/walkthrough/make-a-particle-system-in-html5-canvas
-      this.ctx.fillRect(part.currentLocation.x, part.currentLocation.y, part.radius, part.radius);
     });
   }
 
@@ -120,10 +117,18 @@ export default class App {
 
       part.currentLocation.x += Math.cos(rotation) * speed;
       part.currentLocation.y += Math.sin(rotation) * speed;
+      part.radius = Math.min(distance / speed / 4, 10);
     });
     this.streamParticles = this.streamParticles.filter((elm) => {
       return !elm.deleted;
     });
+    this.streamParticles.push(
+      {
+        radius: 10,
+        currentLocation: { x: this.canvas.width / 2, y: this.canvas.height },
+        targetLocation: { x: this.crosshair.x, y: this.crosshair.y }
+      }
+    );
   }
 
   clickControl(direction, amount) {
