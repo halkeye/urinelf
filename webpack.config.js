@@ -48,7 +48,7 @@ var config = {
     'json3',*/
 
     './css/main.scss',
-    './js/main.jsx'
+    './js/main.js'
   ],
   module: {
     preLoaders: [
