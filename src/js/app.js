@@ -35,7 +35,7 @@ export default class App {
 
     this.addEventListeners();
   }
-  
+
   stop() {
     clearInterval(this.particleInterval);
     delete this.particleInterval;
